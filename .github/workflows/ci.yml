@@ -59,9 +59,9 @@ jobs:
       - name: Summary
         run: |
           echo "=== CloudPix Build Summary ==="
-          echo "Node:  $(node --version)"
-          echo "NPM:   $(npm --version)"
-          echo "Pkgs:  $(npm list --depth=0 2>/dev/null | grep -c '──')"
+          echo "Node: $(node --version)"
+          echo "NPM:  $(npm --version)"
+          echo "Deps: $(cat package.json | grep -o '"[^"]*":' | wc -l) entries in package.json"
 
   # ── Docker Build Validation ───────────────────────────────────────────────
   docker-build:

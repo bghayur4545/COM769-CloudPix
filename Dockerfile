@@ -1,6 +1,8 @@
 # ── Stage 1: Install dependencies ─────────────────────────────────────────
 FROM node:20-alpine AS deps
 WORKDIR /app
+# Sharp needs these build tools on Alpine musl libc
+RUN apk add --no-cache vips-dev fftw-dev build-base python3
 COPY package*.json ./
 RUN npm ci --omit=dev
 
@@ -8,8 +10,8 @@ RUN npm ci --omit=dev
 FROM node:20-alpine AS runner
 WORKDIR /app
 
-# Sharp requires these native libs on Alpine
-RUN apk add --no-cache vips-dev fftw-dev build-base python3
+# Sharp runtime library (libvips)
+RUN apk add --no-cache vips
 
 # Copy deps from stage 1 and app source
 COPY --from=deps /app/node_modules ./node_modules
