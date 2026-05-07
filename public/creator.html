@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CloudPix – Creator Studio</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="nav-brand">
+            <svg width="24" height="24" viewBox="0 0 48 48" fill="none">
+                <rect width="48" height="48" rx="14" fill="#6366f1"/>
+                <path d="M10 30L18 20L24 26L30 18L38 30H10Z" fill="white" fill-opacity="0.9"/>
+                <circle cx="16" cy="18" r="4" fill="white"/>
+            </svg>
+            CloudPix
+        </div>
+        <div class="nav-tabs">
+            <a href="/creator.html" class="nav-tab active">
+                <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/></svg>
+                Upload Studio
+            </a>
+            <a href="/consumer.html" class="nav-tab">
+                <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+                Browse Feed
+            </a>
+        </div>
+        <div class="nav-info">
+            <span class="nav-badge creator-badge">Creator</span>
+            <span class="nav-username" id="nav-username"></span>
+        </div>
+        <button class="btn-logout" onclick="logout()">Logout</button>
+    </nav>
+
+    <div class="dashboard-layout">
+
+        <!-- Upload Panel -->
+        <aside class="upload-panel">
+            <h2>Upload Photo</h2>
+
+            <form id="upload-form" onsubmit="handleUpload(event)" enctype="multipart/form-data">
+                <div class="drop-zone" id="drop-zone" onclick="document.getElementById('file-input').click()">
+                    <div id="drop-preview">
+                        <span class="drop-icon">🖼️</span>
+                        <p>Click or drag an image here</p>
+                        <small>JPEG, PNG, GIF, WebP &middot; Max 10 MB</small>
+                    </div>
+                    <img id="img-preview" class="hidden" alt="Preview">
+                </div>
+                <input type="file" id="file-input" accept="image/*" style="display:none" onchange="previewImage(event)">
+
+                <div class="panel-field">
+                    <label>Title <span class="required">*</span></label>
+                    <input type="text" id="up-title" placeholder="Give your photo a title" required>
+                </div>
+                <div class="panel-field">
+                    <label>Caption</label>
+                    <textarea id="up-caption" placeholder="Write a caption…"></textarea>
+                </div>
+                <div class="panel-field">
+                    <label>Location</label>
+                    <input type="text" id="up-location" placeholder="e.g. London, UK">
+                </div>
+                <div class="panel-field">
+                    <label>People Tagged</label>
+                    <input type="text" id="up-people" placeholder="Alice, Bob (comma-separated)">
+                </div>
+
+                <button type="submit" class="btn-primary full" id="upload-btn">
+                    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/></svg>
+                    Upload Photo
+                </button>
+            </form>
+
+            <div id="upload-message" class="message hidden"></div>
+        </aside>
+
+        <!-- My Photos Grid -->
+        <main class="content-area">
+            <div class="section-header">
+                <h2>My Photos</h2>
+                <button class="btn-secondary" onclick="loadMyPhotos()">Refresh</button>
+            </div>
+            <div id="my-photos-grid" class="photo-grid">
+                <div class="loading-spinner"></div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div id="delete-modal" class="modal hidden">
+        <div class="modal-content small">
+            <h3>Delete Photo</h3>
+            <p>Are you sure you want to permanently delete this photo? All comments will also be removed.</p>
+            <div class="modal-actions">
+                <button class="btn-secondary" onclick="closeDeleteModal()">Cancel</button>
+                <button class="btn-danger solid" onclick="confirmDelete()">Delete</button>
+            </div>
+        </div>
+    </div>
+    <div id="modal-overlay" class="modal-overlay hidden" onclick="closeDeleteModal()"></div>
+
+    <script src="/js/creator.js"></script>
+</body>
+</html>

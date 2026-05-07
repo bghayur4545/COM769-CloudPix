@@ -1,9 +1,14 @@
 {
-  "name": "umair-poject",
+  "name": "cloudpix",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "CloudPix – Scalable photo-sharing web application (COM769 Coursework 2)",
+  "main": "server.js",
+  "engines": {
+    "node": ">=20.0.0"
+  },
   "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -11,10 +16,18 @@
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
+    "bcryptjs": "^3.0.3",
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
+    "express-rate-limit": "^8.5.1",
+    "helmet": "^8.1.0",
+    "jsonwebtoken": "^9.0.3",
+    "mongodb": "^7.2.0",
     "mongoose": "^9.6.1",
-    "multer": "^2.1.1"
+    "multer": "^2.1.1",
+    "node-cache": "^5.1.2",
+    "sentiment": "^5.0.2",
+    "sharp": "^0.34.5"
   }
 }

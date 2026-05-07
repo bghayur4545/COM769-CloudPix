@@ -1,0 +1,114 @@
+name: CloudPix CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  # ── Build & Test ──────────────────────────────────────────────────────────
+  build-and-test:
+    runs-on: ubuntu-latest
+    name: Build, Lint & Test
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Syntax check — server
+        run: node --check server.js
+
+      - name: Syntax check — models
+        run: |
+          node --check models/User.js
+          node --check models/Photo.js
+          node --check models/Comment.js
+
+      - name: Verify required frontend files
+        run: |
+          test -f public/index.html    && echo "✓ index.html"
+          test -f public/creator.html  && echo "✓ creator.html"
+          test -f public/consumer.html && echo "✓ consumer.html"
+          test -f public/admin.html    && echo "✓ admin.html"
+          test -f public/css/style.css && echo "✓ style.css"
+          test -f public/js/auth.js    && echo "✓ auth.js"
+          test -f public/js/creator.js && echo "✓ creator.js"
+          test -f public/js/consumer.js && echo "✓ consumer.js"
+
+      - name: Verify Docker/NGINX configs exist
+        run: |
+          test -f Dockerfile            && echo "✓ Dockerfile"
+          test -f docker-compose.yml    && echo "✓ docker-compose.yml"
+          test -f nginx/nginx.conf      && echo "✓ nginx.conf"
+          test -f .env.example          && echo "✓ .env.example"
+
+      - name: Security audit
+        run: npm audit --audit-level=high
+        continue-on-error: true
+
+      - name: Summary
+        run: |
+          echo "=== CloudPix Build Summary ==="
+          echo "Node:  $(node --version)"
+          echo "NPM:   $(npm --version)"
+          echo "Pkgs:  $(npm list --depth=0 2>/dev/null | grep -c '──')"
+
+  # ── Docker Build Validation ───────────────────────────────────────────────
+  docker-build:
+    runs-on: ubuntu-latest
+    name: Docker Build Check
+    needs: build-and-test
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Validate docker-compose syntax
+        run: docker compose config --quiet
+        env:
+          MONGO_URI: mongodb://placeholder
+          JWT_SECRET: placeholder
+          ADMIN_SECRET: placeholder
+
+      - name: Build Docker image
+        run: docker build --tag cloudpix:ci .
+
+  # ── Deploy to Azure App Service ───────────────────────────────────────────
+  deploy-azure:
+    runs-on: ubuntu-latest
+    name: Deploy to Azure App Service
+    needs: build-and-test
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install production dependencies
+        run: npm ci --omit=dev
+
+      - name: Zip artifact for deployment
+        run: zip -r cloudpix.zip . --exclude "*.git*" --exclude "node_modules/.cache/*" --exclude "uploads/*" --exclude ".env"
+
+      - name: Deploy to Azure Web App
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: ${{ secrets.AZURE_WEBAPP_NAME }}
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+          package: cloudpix.zip

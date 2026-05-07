@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CloudPix – Share Your World</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="auth-page">
+
+    <div class="auth-split">
+
+        <!-- Left Branding Panel -->
+        <div class="auth-brand-panel">
+            <div class="brand-content">
+                <div class="brand-logo">
+                    <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+                        <rect width="48" height="48" rx="14" fill="white" fill-opacity="0.15"/>
+                        <path d="M10 30L18 20L24 26L30 18L38 30H10Z" fill="white" fill-opacity="0.9"/>
+                        <circle cx="16" cy="18" r="4" fill="white"/>
+                    </svg>
+                    <span>CloudPix</span>
+                </div>
+                <h1 class="brand-headline">Share your world,<br><span>one photo</span> at a time.</h1>
+                <p class="brand-sub">A scalable cloud-native photo sharing platform — upload, discover, and connect.</p>
+                <div class="brand-features">
+                    <div class="feature-pill">📸 Photo Sharing</div>
+                    <div class="feature-pill">🔍 Smart Search</div>
+                    <div class="feature-pill">💬 Comments & Ratings</div>
+                    <div class="feature-pill">🧠 AI Sentiment</div>
+                </div>
+            </div>
+            <div class="brand-orbs">
+                <div class="orb orb-1"></div>
+                <div class="orb orb-2"></div>
+                <div class="orb orb-3"></div>
+            </div>
+        </div>
+
+        <!-- Right Form Panel -->
+        <div class="auth-form-panel">
+            <div class="auth-card">
+                <div class="auth-card-header">
+                    <div class="mobile-logo">
+                        <svg width="28" height="28" viewBox="0 0 48 48" fill="none">
+                            <rect width="48" height="48" rx="14" fill="#6366f1"/>
+                            <path d="M10 30L18 20L24 26L30 18L38 30H10Z" fill="white" fill-opacity="0.9"/>
+                            <circle cx="16" cy="18" r="4" fill="white"/>
+                        </svg>
+                        <span>CloudPix</span>
+                    </div>
+                    <h2 id="form-heading">Welcome back</h2>
+                    <p id="form-subheading">Sign in to your account</p>
+                </div>
+
+                <div class="tab-bar">
+                    <button class="tab-btn active" onclick="showTab('login')" id="tab-login">Login</button>
+                    <button class="tab-btn" onclick="showTab('register')" id="tab-register">Register</button>
+                    <div class="tab-indicator" id="tab-indicator"></div>
+                </div>
+
+                <!-- Login Form -->
+                <div id="login-tab" class="tab-content active">
+                    <form id="login-form" onsubmit="handleLogin(event)" novalidate>
+                        <div class="input-group">
+                            <input type="text" id="login-username" placeholder=" " autocomplete="username" required>
+                            <label>Username</label>
+                            <span class="input-icon">
+                                <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                            </span>
+                        </div>
+                        <div class="input-group">
+                            <input type="password" id="login-password" placeholder=" " autocomplete="current-password" required>
+                            <label>Password</label>
+                            <span class="input-icon">
+                                <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                            </span>
+                            <button type="button" class="toggle-pw" onclick="togglePassword('login-password', this)">
+                                <svg class="eye-open" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                                <svg class="eye-closed hidden" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+                            </button>
+                        </div>
+                        <div class="input-group select-group">
+                            <select id="login-role" required>
+                                <option value="consumer">Consumer – Browse &amp; Comment</option>
+                                <option value="creator">Creator – Upload Photos</option>
+                            </select>
+                            <label class="select-label">Account Type</label>
+                            <span class="input-icon select-arrow">
+                                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+                            </span>
+                        </div>
+                        <button type="submit" class="btn-submit" id="login-btn">
+                            <span class="btn-text">Sign In</span>
+                            <span class="btn-spinner hidden"></span>
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Register Form -->
+                <div id="register-tab" class="tab-content">
+                    <form id="register-form" onsubmit="handleRegister(event)" novalidate>
+                        <div class="input-group">
+                            <input type="text" id="reg-username" placeholder=" " autocomplete="username" required>
+                            <label>Username</label>
+                            <span class="input-icon">
+                                <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                            </span>
+                        </div>
+
+                        <div class="input-group">
+                            <input type="password" id="reg-password" placeholder=" " autocomplete="new-password" oninput="checkPasswordStrength(this.value)" required>
+                            <label>Password</label>
+                            <span class="input-icon">
+                                <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                            </span>
+                            <button type="button" class="toggle-pw" onclick="togglePassword('reg-password', this)">
+                                <svg class="eye-open" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                                <svg class="eye-closed hidden" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+                            </button>
+                        </div>
+
+                        <!-- Password Strength Meter -->
+                        <div class="pw-strength" id="pw-strength">
+                            <div class="strength-bars">
+                                <div class="strength-bar" id="sbar-1"></div>
+                                <div class="strength-bar" id="sbar-2"></div>
+                                <div class="strength-bar" id="sbar-3"></div>
+                                <div class="strength-bar" id="sbar-4"></div>
+                            </div>
+                            <span class="strength-label" id="strength-label">Enter a password</span>
+                        </div>
+                        <div class="pw-rules" id="pw-rules">
+                            <div class="rule" id="rule-len"><span class="rule-dot"></span>At least 8 characters</div>
+                            <div class="rule" id="rule-upper"><span class="rule-dot"></span>One uppercase letter</div>
+                            <div class="rule" id="rule-lower"><span class="rule-dot"></span>One lowercase letter</div>
+                            <div class="rule" id="rule-num"><span class="rule-dot"></span>One number</div>
+                            <div class="rule" id="rule-special"><span class="rule-dot"></span>One special character (!@#$%)</div>
+                        </div>
+
+                        <div class="input-group">
+                            <input type="password" id="reg-confirm" placeholder=" " autocomplete="new-password" oninput="checkConfirmPassword()" required>
+                            <label>Confirm Password</label>
+                            <span class="input-icon">
+                                <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                            </span>
+                            <button type="button" class="toggle-pw" onclick="togglePassword('reg-confirm', this)">
+                                <svg class="eye-open" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                                <svg class="eye-closed hidden" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+                            </button>
+                        </div>
+                        <div class="confirm-msg hidden" id="confirm-msg"></div>
+
+                        <div class="input-group select-group">
+                            <select id="reg-role" required>
+                                <option value="consumer">Consumer – Browse &amp; Comment</option>
+                                <option value="creator">Creator – Upload Photos</option>
+                            </select>
+                            <label class="select-label">Account Type</label>
+                            <span class="input-icon select-arrow">
+                                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+                            </span>
+                        </div>
+
+                        <button type="submit" class="btn-submit" id="reg-btn">
+                            <span class="btn-text">Create Account</span>
+                            <span class="btn-spinner hidden"></span>
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Message Toast -->
+                <div id="auth-message" class="auth-toast hidden"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/auth.js"></script>
+</body>
+</html>

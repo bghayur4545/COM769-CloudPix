@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CloudPix – Explore Photos</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="nav-brand">
+            <svg width="24" height="24" viewBox="0 0 48 48" fill="none">
+                <rect width="48" height="48" rx="14" fill="#6366f1"/>
+                <path d="M10 30L18 20L24 26L30 18L38 30H10Z" fill="white" fill-opacity="0.9"/>
+                <circle cx="16" cy="18" r="4" fill="white"/>
+            </svg>
+            CloudPix
+        </div>
+
+        <div class="search-bar">
+            <input type="text" id="search-input"
+                   placeholder="Search by title, location, people…"
+                   oninput="debounceSearch()"
+                   onkeydown="if(event.key==='Enter') searchPhotos()">
+            <button class="btn-search" onclick="searchPhotos()">
+                <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            </button>
+        </div>
+
+        <div class="nav-tabs" id="nav-tabs">
+            <a href="/consumer.html" class="nav-tab active">
+                <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+                Browse Feed
+            </a>
+            <a href="/creator.html" class="nav-tab hidden" id="nav-studio-link">
+                <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/></svg>
+                Upload Studio
+            </a>
+        </div>
+        <div class="nav-info">
+            <span class="nav-badge" id="nav-role-badge"></span>
+            <span class="nav-username" id="nav-username"></span>
+        </div>
+        <button class="btn-logout" onclick="logout()">Logout</button>
+    </nav>
+
+    <div class="consumer-layout">
+        <div class="feed-header">
+            <h2>Photo Feed</h2>
+            <span id="photo-count" class="photo-count"></span>
+        </div>
+        <div id="photo-grid" class="photo-grid">
+            <div class="loading-spinner"></div>
+        </div>
+    </div>
+
+    <!-- Photo Detail Modal -->
+    <div id="photo-modal" class="modal hidden">
+        <div class="modal-content large">
+            <button class="modal-close" onclick="closePhotoModal()">✕</button>
+            <div class="modal-body">
+                <div class="modal-image-section">
+                    <img id="modal-img" src="" alt="">
+                </div>
+                <div class="modal-info-section">
+                    <div class="modal-meta">
+                        <h2 id="modal-title"></h2>
+                        <p id="modal-caption" class="modal-caption"></p>
+                        <div id="modal-location" class="meta-item"></div>
+                        <div id="modal-people" class="meta-item"></div>
+                        <div class="meta-item creator-meta">
+                            <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                            <span id="modal-creator"></span>
+                        </div>
+                    </div>
+
+                    <!-- Rating -->
+                    <div class="rating-section">
+                        <h4>Rate this photo</h4>
+                        <div class="star-rating" id="star-rating">
+                            <span class="star" data-value="1" onclick="submitRating(1)">★</span>
+                            <span class="star" data-value="2" onclick="submitRating(2)">★</span>
+                            <span class="star" data-value="3" onclick="submitRating(3)">★</span>
+                            <span class="star" data-value="4" onclick="submitRating(4)">★</span>
+                            <span class="star" data-value="5" onclick="submitRating(5)">★</span>
+                        </div>
+                        <p id="avg-rating" class="avg-rating"></p>
+                    </div>
+
+                    <!-- Comments -->
+                    <div class="comments-section">
+                        <h4>Comments</h4>
+                        <form onsubmit="submitComment(event)" class="comment-form">
+                            <input type="text" id="comment-input" placeholder="Write a comment…" required>
+                            <button type="submit" class="btn-primary">Post</button>
+                        </form>
+                        <div id="comments-list" class="comments-list"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="modal-overlay" class="modal-overlay hidden" onclick="closePhotoModal()"></div>
+
+    <script src="/js/consumer.js"></script>
+</body>
+</html>
