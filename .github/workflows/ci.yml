@@ -89,6 +89,7 @@ jobs:
     name: Deploy to Azure App Service
     needs: build-and-test
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    continue-on-error: true
 
     steps:
       - name: Checkout code
