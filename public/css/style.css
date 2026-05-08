@@ -293,7 +293,8 @@ button,input,select,textarea { font-family: inherit; }
     cursor: pointer;
     border-radius: calc(var(--r) - 2px);
     position: relative;
-    z-index: 1;
+    z-index: 2;
+    pointer-events: auto;
     transition: color var(--t-fast) var(--ease);
     letter-spacing: 0.1px;
 }
@@ -308,7 +309,7 @@ button,input,select,textarea { font-family: inherit; }
     border-radius: calc(var(--r) - 3px);
     transition: transform var(--t-mid) var(--ease);
     pointer-events: none;
-    backdrop-filter: blur(8px);
+    z-index: 0;
 }
 .tab-indicator.right { transform: translateX(calc(100% + 2px)); }
 
