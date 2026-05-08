@@ -99,7 +99,7 @@ button,input,select,textarea { font-family: inherit; }
 ══════════════════════════════════════════════════════════════════════════ */
 .auth-page {
     display: flex;
-    min-height: 100vh;
+    height: 100vh;
     background: var(--bg-base);
     position: relative;
     overflow: hidden;
@@ -121,7 +121,7 @@ button,input,select,textarea { font-family: inherit; }
 .auth-split {
     display: flex;
     width: 100%;
-    min-height: 100vh;
+    height: 100%;
     position: relative;
     z-index: 1;
 }
@@ -232,16 +232,17 @@ button,input,select,textarea { font-family: inherit; }
 /* ── Form panel ────────────────────────────────────────────────────────── */
 .auth-form-panel {
     flex: 1;
+    height: 100%;
     display: flex;
     align-items: flex-start;
     justify-content: center;
     padding: 40px 36px;
     overflow-y: auto;
     min-height: 0;
+    box-sizing: border-box;
 }
 
 .auth-form-panel .auth-card {
-    margin: auto 0;
     width: 100%;
 }
 
