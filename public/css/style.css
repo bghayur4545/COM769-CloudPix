@@ -233,10 +233,16 @@ button,input,select,textarea { font-family: inherit; }
 .auth-form-panel {
     flex: 1;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
     padding: 40px 36px;
     overflow-y: auto;
+    min-height: 0;
+}
+
+.auth-form-panel .auth-card {
+    margin: auto 0;
+    width: 100%;
 }
 
 .auth-card {
