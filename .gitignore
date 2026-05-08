@@ -2,3 +2,7 @@ node_modules/
 .env
 uploads/
 *.log
+.claude/
+*.pptx
+generate-slides.js
+*.pdf
